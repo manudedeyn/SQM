@@ -8,6 +8,7 @@ import lang::java::m3::AST;
 import Metrics::UnitSize;
 import Metrics::Volume;
 import Prelude;
+import util::Math;
 
 
 // Calculates the Cyclomatic Complexity metric
@@ -33,15 +34,15 @@ public int calcCCOfStatement(Statement statement){
 }
 
 
+//Example usage: CalculateCC(|project://smallsql/|);
+//Returns the percentage of lines with a certain risk in the following order: VeryHighRisk, HighRisk, ModerateRisk, LowRisk
+public list[int] CalculateCC(loc project){ 
 
-public void CalculateCC(){
- loc project = |project://smallsql/|;
- 
  //reset counters
-numberOfLinesVeryHighRisk = 0;
-numberOfLinesHighRisk = 0;
-numberOfLinesModerateRisk = 0;
-numberOfLinesSimple = 0;
+numberOfLinesVeryHighRisk = 0.0;
+numberOfLinesHighRisk = 0.0;
+numberOfLinesModerateRisk = 0.0;
+numberOfLinesSimple = 0.0;
 
  M3 model = createM3FromEclipseProject(project);
  	for(decl <- model.declarations) {
@@ -88,17 +89,19 @@ numberOfLinesSimple = 0;
 	}	
  	} 	
  
- 
+   
+   numberOfLines = metricVolumeLOC();
    println("numberOfLinesVeryHighRisk = <numberOfLinesVeryHighRisk>");
    println("numberOfLinesHighRisk = <numberOfLinesHighRisk>");
    println("numberOfLinesModerateRisk = <numberOfLinesModerateRisk>");
    println("numberOfLinesSimple = <numberOfLinesSimple>");
-   println("Total amount of lines=<metricVolumeLOC>");
+   println("Total amount of lines=<numberOfLines>");
    println("");
    println("");
-   println("Percentage of lines at very high risk: <numberOfLinesVeryHighRisk/metricVolumeLOC()*100>%");
-   println("Percentage of lines at high risk:  <numberOfLinesHighRisk/metricVolumeLOC()*100>%");
-   println("Percentage of lines at moderate risk:  <numberOfLinesModerateRisk/metricVolumeLOC()*100>%");
-   println("Percentage of lines at low risk:  <numberOfLinesSimple/metricVolumeLOC()*100>%");
+   println("Percentage of lines at very high risk: <numberOfLinesVeryHighRisk/numberOfLines*100>%");
+   println("Percentage of lines at high risk:  <numberOfLinesHighRisk/numberOfLines*100>%");
+   println("Percentage of lines at moderate risk:  <numberOfLinesModerateRisk/numberOfLines*100>%");
+   println("Percentage of lines at low risk:  <numberOfLinesSimple/numberOfLines*100>%");
+   return [toInt(numberOfLinesVeryHighRisk/numberOfLines*100), toInt(numberOfLinesHighRisk/numberOfLines*100), toInt(numberOfLinesModerateRisk/numberOfLines*100), toInt(numberOfLinesSimple/numberOfLines*100)];
    
 }
