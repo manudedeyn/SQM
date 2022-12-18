@@ -6,7 +6,7 @@ import lang::java::m3::AST;
 import Prelude;
 import Helpers::Helpers;
 import Helpers::WhitespaceHelper;
-
+import util::Math;
 
 
 public int GetUnitSize(loc unit) {
@@ -20,11 +20,8 @@ public int GetUnitSize(loc unit) {
 	return totaalAantalRegels;
 }
 
-
-public void CalculateUnitSizes() {
-   
-loc project = |project://smallsql/|;
- 
+//Returns the percentage of unit size in the following order: VeryHighRisk, HighRisk, ModerateRisk, LowRisk
+public list[int] CalculateUnitSizes(loc project) {
  
 int numberOfLinesVeryHighRisk = 0;
 int numberOfLinesHighRisk = 0;
@@ -67,10 +64,10 @@ int numberOfLinesSimple = 0;
 	}	
  	} 	
  
- 
-   println("numberOfLinesVeryHighRisk = <numberOfLinesVeryHighRisk>");
-   println("numberOfLinesHighRisk = <numberOfLinesHighRisk>");
-   println("numberOfLinesModerateRisk = <numberOfLinesModerateRisk>");
-   println("numberOfLinesSimple = <numberOfLinesSimple>");
-   println("Total amount of unit lines=<numberOfLinesVeryHighRisk+numberOfLinesHighRisk+numberOfLinesModerateRisk+numberOfLinesSimple>");
+   numberOfLines = numberOfLinesVeryHighRisk+numberOfLinesHighRisk+numberOfLinesModerateRisk+numberOfLinesSimple;
+   int veryHighRiskPercentage = percent(numberOfLinesVeryHighRisk, numberOfLines);
+   int highRiskPercentage = percent(numberOfLinesHighRisk, numberOfLines);
+   int moderateRiskPercentage = percent(numberOfLinesModerateRisk, numberOfLines);
+   int lowRiskPercentage = percent(numberOfLinesSimple, numberOfLines);
+   return [numberOfLines, veryHighRiskPercentage, highRiskPercentage, moderateRiskPercentage, lowRiskPercentage];//Total, VeryHigh, High, Moderate, Low
 }
