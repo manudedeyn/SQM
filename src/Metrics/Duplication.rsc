@@ -11,22 +11,21 @@ list[str] duplicates;
 
 //Duplicates is defined as a number, the duplicateLineCount
 
-public void getNumberOfDuplicateLinesForEachClassInProject(){
+public int getNumberOfDuplicateLinesForEachClassInProject(loc project){
 	duplicates = [""];
 	int duplicateLines = 0;
- 	loc project = |project://smallsql/|;
 
 	M3 model = createM3FromEclipseProject(project);
  	for(decl <- model.declarations) {
 		if(isClass(decl.name)) {
 			int a = getNumberOfDuplicateLinesForLocation(decl.src, project);
-			println("Total amount of duplicate lines: <a> for <decl.src>"); 
+			//println("Total amount of duplicate lines: <a> for <decl.src>"); 
 			duplicateLines = a + duplicateLines;
 		}	
 	}
 	
-	println("Total amount of duplicate lines for project: <duplicateLines>");
-	
+	//println("Total amount of duplicate lines for project: <duplicateLines>");
+	return duplicateLines;
 }
 
 public int getNumberOfDuplicateLinesForLocation(loc currentClass, loc project){
@@ -63,4 +62,17 @@ public int getNumberOfDuplicateLinesForLocation(loc currentClass, loc project){
 	return numberOfDuplicateLines;
 }
 
+//As Defined in the article
+public str getDuplicationRank(int duplicationPercentage){
+	if (duplicationPercentage<=3){
+		return "++";
+	} else if(duplicationPercentage<=5){
+		return "+";
+	} else if (duplicationPercentage<=10){
+		return "O";
+	} else if (duplicationPercentage<=20){
+		return "-";
+	}
+	return "--";
+}
 
