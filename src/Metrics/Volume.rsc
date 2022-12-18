@@ -6,11 +6,8 @@ import Metrics::UnitSize;
 //Volume metric 1 as defined by the SIG, the total number of lines of code
 
 
+public int metricVolumeLOC(loc project) {
 
-
-public int metricVolumeLOC() {
-
-   loc project = |project://smallsql/|;
    set[loc] bestanden = javaBestanden(project);
    
 	int totaalAantalRegels = 0;
@@ -24,30 +21,26 @@ public int metricVolumeLOC() {
 }
 
 
-
-
 //Volume metric 2 as defined by the SIG, calculating the amount of man years it takes to create the software and directly scoring this
-
-public int manyearsscore() {
+// As defined by Programming Languages Table Of Software Productivity Research LLC
+public str manYearsScore(int LOC) {
 	// Classify the lines of code into a score, where 5 is the best score, and 1 the worst score.
 	
-	int KLOC = metricVolumeLOC() / 1000;
+	int KLOC = LOC / 1000;
 	
 	if(KLOC < 66) {
-		return 5;
+		return "++";
 	}
 	
 	if(KLOC < 246) {
-		return 4;
+		return "+";
 	}
 	
 	if(KLOC < 665) {
-		return 3;
+		return "O";
 	}
 	
 	if(KLOC < 1310) {
-		return 2;
-	} else return 1;
-	
-
+		return "-";
+	} else return "--";
 }
