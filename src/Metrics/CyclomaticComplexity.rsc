@@ -37,8 +37,7 @@ public int calcCCOfStatement(Statement statement){
 //Example usage: CalculateCC(|project://smallsql/|);
 //Returns the percentage of lines with a certain risk in the following order: VeryHighRisk, HighRisk, ModerateRisk, LowRisk
 public list[int] CalculateCC(loc project){ 
-
- //reset counters
+//reset counters
 numberOfLinesVeryHighRisk = 0.0;
 numberOfLinesHighRisk = 0.0;
 numberOfLinesModerateRisk = 0.0;
@@ -60,7 +59,7 @@ numberOfLinesSimple = 0.0;
 				if(m.src == decl.src) { 
 					int complexity = calcCCOfStatement(imp);
 					int unitSize =  GetUnitSize(decl.src);
-					println("Complexity:<complexity>   , Unit Size:<unitSize>");
+					//println("Complexity:<complexity>   , Unit Size:<unitSize>");
 					
 					//Add LOC to the correct counters
 					if(complexity<11) numberOfLinesSimple = numberOfLinesSimple += unitSize; 
@@ -74,7 +73,7 @@ numberOfLinesSimple = 0.0;
 				if(c.src == decl.src) {
 					int complexity = calcCCOfStatement(imp);
 					int unitSize =  GetUnitSize(decl.src);
-					println("Complexity:<complexity>   , Unit Size:<unitSize>");
+					//println("Complexity:<complexity>   , Unit Size:<unitSize>");
 					
 					//Add LOC to the correct counters
 					if(complexity<11) numberOfLinesSimple = numberOfLinesSimple += unitSize; 
@@ -90,8 +89,8 @@ numberOfLinesSimple = 0.0;
  	} 	
  
    
-   numberOfLines = metricVolumeLOC();
-   println("numberOfLinesVeryHighRisk = <numberOfLinesVeryHighRisk>");
+   numberOfLines = metricVolumeLOC(project);
+   /*println("numberOfLinesVeryHighRisk = <numberOfLinesVeryHighRisk>");
    println("numberOfLinesHighRisk = <numberOfLinesHighRisk>");
    println("numberOfLinesModerateRisk = <numberOfLinesModerateRisk>");
    println("numberOfLinesSimple = <numberOfLinesSimple>");
@@ -101,7 +100,8 @@ numberOfLinesSimple = 0.0;
    println("Percentage of lines at very high risk: <numberOfLinesVeryHighRisk/numberOfLines*100>%");
    println("Percentage of lines at high risk:  <numberOfLinesHighRisk/numberOfLines*100>%");
    println("Percentage of lines at moderate risk:  <numberOfLinesModerateRisk/numberOfLines*100>%");
-   println("Percentage of lines at low risk:  <numberOfLinesSimple/numberOfLines*100>%");
+   println("Percentage of lines at low risk:  <numberOfLinesSimple/numberOfLines*100>%");*/
+  
    return [toInt(numberOfLinesVeryHighRisk/numberOfLines*100), toInt(numberOfLinesHighRisk/numberOfLines*100), toInt(numberOfLinesModerateRisk/numberOfLines*100), toInt(numberOfLinesSimple/numberOfLines*100)];
    
 }
