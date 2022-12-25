@@ -48,19 +48,26 @@ public str removeLeadingSpacesForProjectLocation(loc project){
 	return resultString;
 }
 
+public real weighted_average(list[real] values, list[real] weights)
+{
+  real sum = 0.0;
+  real weight_sum = 0.0;
+  int i = 0;
+  while (i<size(values)){
+  	sum += values[i] * weights[i];
+    weight_sum += weights[i];
+    i=i+1;
+  }
+
+  return sum / weight_sum;
+}
 
 
-public int Metric_Volume_LOC() {
-   loc project = |project://smallsql/|;
-   set[loc] bestanden = javaBestanden(project);
-   
-	int totaalAantalRegels = 0;
+public void testWeighted_Average(){
+	list[real] values = [100.0, 90.0, 80.0, 70.0, 60.0];
+	list[real] weights = [0.2, 0.1, 0.1, 0.3, 0.3];
 	
-    for(loc l <- bestanden){
-        //Unit in this case corresponds to a file
-    	totaalAantalRegels = totaalAantalRegels + GetUnitSize(l);
-    }
-
-	return totaalAantalRegels;
+	real avg = weighted_average(values, weights);
+	println(avg); //Should be: 76.0
 }
 
