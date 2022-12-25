@@ -71,3 +71,28 @@ int numberOfLinesSimple = 0;
    int lowRiskPercentage = percent(numberOfLinesSimple, numberOfLines);
    return [numberOfLines, veryHighRiskPercentage, highRiskPercentage, moderateRiskPercentage, lowRiskPercentage];//Total, VeryHigh, High, Moderate, Low
 }
+
+//This is calculated with a Weighted Average
+public str getUnitSizeScore(list[int] values){
+	//Left to right: Simple to VeryHigh
+	list[real] weights = [1.0, 10.0, 20.0, 100.0];
+	list[real] realValues = [toReal(values[4]), toReal(values[3]), toReal(values[2]), toReal(values[1])];	
+	real avg = weighted_average(realValues, weights);
+	//println(avg); 
+		
+	//Less is better here, so:
+	str ret = "O";
+	if (avg<= 10){
+		return "++";
+	}
+	else if(avg<=10){
+		return "+";
+	}else if (avg<=25){
+		return "O";
+	}
+	else if (avg<=40){
+		return "-";
+	}else{
+		return "--";
+	}
+}
