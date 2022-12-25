@@ -9,6 +9,7 @@ import Metrics::UnitSize;
 import Metrics::Volume;
 import Prelude;
 import util::Math;
+import Helpers::Helpers;
 
 
 // Calculates the Cyclomatic Complexity metric
@@ -104,4 +105,35 @@ numberOfLinesSimple = 0.0;
   
    return [toInt(numberOfLinesVeryHighRisk/numberOfLines*100), toInt(numberOfLinesHighRisk/numberOfLines*100), toInt(numberOfLinesModerateRisk/numberOfLines*100), toInt(numberOfLinesSimple/numberOfLines*100)];
    
+}
+
+
+//This is calculated with a Weighted Average
+public str getUnitComplexityScore(list[int] values){
+	//Left to right: Simple to VeryHigh
+	list[real] weights = [1.0, 10.0, 20.0, 100.0];
+	list[real] realValues = [toReal(values[0]), toReal(values[1]), toReal(values[2]), toReal(values[3])];	
+	real avg = weighted_average(realValues, weights);
+		
+	//Less is better here, so:
+	str ret = "O";
+	if (avg<= 10){
+		return "++";
+	}
+	else if(avg<=10){
+		return "+";
+	}else if (avg<=25){
+		return "O";
+	}
+	else if (avg<=40){
+		return "-";
+	}else{
+		return "--";
+	}
+}
+
+public void test_getUnitComplexityScore(){
+	println("unit complexity score simple 90, complex 10 : <getUnitComplexityScore([90,0,0,10])>"); //Expect ++
+	println("unit complexity score simple 50, complex 50 : <getUnitComplexityScore([50,0,0,50])>"); //Expect -
+	println("unit complexity score simple 10, complex 90 : <getUnitComplexityScore([10,0,0,90])>"); //Expect --
 }
