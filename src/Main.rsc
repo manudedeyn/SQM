@@ -6,6 +6,7 @@ import Metrics::Duplication;
 import Metrics::CyclomaticComplexity;
 import util::Math;
 import Helpers::Helpers;
+import Metrics::Maintainability;
 
 
 public void calculateMetrics(){
@@ -33,14 +34,33 @@ public void calculateMetrics(){
 	int percentageDuplicated = percent(getNumberOfDuplicateLinesForEachClassInProject(project), LOC); // <- Deze wordt nog verkeerd uitgerekend. Komt 160% uit, functie moet gefixt worden
 	println("duplication: <percentageDuplicated>");
 	println("");
-	println("volume score: <manYearsScore(LOC)>");
-	println("unit size score: <getUnitSizeScore(unitSizes)>");
-	println("unit complexity score: <getUnitComplexityScore([simple,complexity[2],complexity[1],complexity[0]])>");
-	println("duplication score: <getDuplicationRank(percentageDuplicated)>"); 
+	
+	str volumeScore = manYearsScore(LOC);
+	println("volume score: " + volumeScore);
+	
+	str unitSizeScore = getUnitSizeScore(unitSizes);
+	println("unit size score: " + unitSizeScore);
+	
+	str unitComplexityScore = getUnitComplexityScore([simple,complexity[2],complexity[1],complexity[0]]);//Weighted
+	println("unit complexity score: " + unitComplexityScore);
+	
+	str duplicationScore =  getDuplicationRank(percentageDuplicated);
+	println("duplication score: " + duplicationScore); 
 	println("");
-	println("analysability score: " + "todo"); // TODO
-	println("changability score: " + "todo"); // TODO
-	println("testability score: " + "todo"); // TODO
+	
+	str testabilityScore = getTestabilityScore(project, unitComplexityScore);
+	str analysabilityScore = getAnalysabilityScore(volumeScore, duplicationScore, unitSizeScore, testabilityScore);
+	println("analysability score: " + analysabilityScore); 
+	str changabilityScore = getChangabilityScore(unitComplexityScore, duplicationScore);
+	println("changability score: " + changabilityScore); 
+	println("testability score: " + testabilityScore); 
 	println("");
-	println("overall maintainability score: " + "++++"); // TODO
+	/*
+	All of the above are considered to calculate overallMaintainabilityScore
+	Weighted equally and rounded to floor:
+	AnalysabilityScore
+	ChangabilityScore
+	TestabilityScore
+	*/
+	println("overall maintainability score: " + calculateAverageScore([analysabilityScore,changabilityScore, testabilityScore])); 
 }
