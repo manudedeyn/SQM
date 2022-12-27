@@ -22,10 +22,10 @@ public set[loc] javaBestanden(loc project) {
 //removeLeadingSpaces
 public str removeLeadingSpaces(list[str] linesOfCode){
 	str resultString = "";
-	
-	while(size(linesOfCode) > 0){
-		resultString = resultString + trim(linesOfCode[0]);
-		linesOfCode = drop(1, linesOfCode);
+	list[str] cleanedUpLines = removeWhitespaceAndCommentsForListOfString(linesOfCode);
+	while(size(cleanedUpLines) > 0){
+		resultString = resultString + trim(cleanedUpLines[0]);
+		cleanedUpLines = drop(1, cleanedUpLines);
 	}
 	//removes the leading spaces and also concats newLine into the same line with newline character
 	return resultString;

@@ -31,8 +31,8 @@ public void calculateMetrics(){
 	println("   * moderate: " + "<complexity[2]>" +"%");
 	println("   * high: " + "<complexity[1]>" +"%");
 	println("   * very high: " + "<complexity[0]>" +"%");
-	int percentageDuplicated = percent(getNumberOfDuplicateLinesForEachClassInProject(project), LOC); // <- Deze wordt nog verkeerd uitgerekend. Komt 160% uit, functie moet gefixt worden
-	println("duplication: <percentageDuplicated>");
+	int percentageDuplicated = percent(getNumberOfDuplicateLinesForEachClassInProject(project), LOC); 
+	println("duplication: <percentageDuplicated>" +"%");
 	println("");
 	
 	str volumeScore = manYearsScore(LOC);

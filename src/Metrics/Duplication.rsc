@@ -5,10 +5,12 @@ import IO;
 import lang::java::jdt::m3::Core;
 import Prelude;
 import Helpers::Helpers;
+import Helpers::WhitespaceHelper;
+import List;
 
 
 list[str] duplicates;
-
+str wholeProjectString;
 //Duplicates is defined as a number, the duplicateLineCount
 
 public int getNumberOfDuplicateLinesForEachClassInProject(loc project){
@@ -16,9 +18,10 @@ public int getNumberOfDuplicateLinesForEachClassInProject(loc project){
 	int duplicateLines = 0;
 
 	M3 model = createM3FromEclipseProject(project);
+	wholeProjectString = removeLeadingSpacesForProjectLocation(project); //WS cleaned
  	for(decl <- model.declarations) {
 		if(isClass(decl.name)) {
-			int a = getNumberOfDuplicateLinesForLocation(decl.src, project);
+			int a = getNumberOfDuplicateLinesForLocation(decl.src, wholeProjectString);
 			//println("Total amount of duplicate lines: <a> for <decl.src>"); 
 			duplicateLines = a + duplicateLines;
 		}	
@@ -28,17 +31,17 @@ public int getNumberOfDuplicateLinesForEachClassInProject(loc project){
 	return duplicateLines;
 }
 
-public int getNumberOfDuplicateLinesForLocation(loc currentClass, loc project){
+public int getNumberOfDuplicateLinesForLocation(loc currentClass, str wholeProjectString){
+	
 	int numberOfDuplicateLines = 0;
 	
 	//Lines to be evaluated if they have duplicates throughout the whole project
-	list[str] fileLines = readFileLines(currentClass);
-	str wholeProjectString = removeLeadingSpacesForProjectLocation(project);
+	list[str] fileLines = removeWhitespaceAndComments(currentClass); //WS cleaned
 	
 	while(size(fileLines) > 6){
 		list[str] currentBlockOfStrings = take(6, fileLines);
 		
-		str linesOfCode = removeLeadingSpaces(currentBlockOfStrings);
+		str linesOfCode = removeLeadingSpaces(currentBlockOfStrings); //WS cleaned double, but also concattenated
 		
 		if(linesOfCode notin duplicates){
 		
@@ -47,16 +50,16 @@ public int getNumberOfDuplicateLinesForLocation(loc currentClass, loc project){
 		
 		if(size(occurencesInProject) > 1){
 			//Add to duplicates list
-			duplicates += [linesOfCode];
-			
+			duplicates = duplicates + [linesOfCode];
+
 			int numberOfDuplicates = size(occurencesInProject) - 1;
-			numberOfDuplicateLines = numberOfDuplicateLines + numberOfDuplicates * 6;
-		//	println("linesOfCode block was found <size(occurencesInProject)> times");
+			int currentNumberOfDuplicateLines =  numberOfDuplicates * 6;
+			numberOfDuplicateLines = numberOfDuplicateLines + currentNumberOfDuplicateLines;
 			}
-		}
-		//If this line isn't commented, we make all possible amount of blocks of 6, reaching a number much larger than our total amount of lines
-		fileLines = drop(1, fileLines);
-		//fileLines = drop(6, fileLines);
+		} 
+
+		wholeProjectString = replaceAll(wholeProjectString,linesOfCode,"");
+		fileLines = drop(6, fileLines);
 	}
 	
 	return numberOfDuplicateLines;
