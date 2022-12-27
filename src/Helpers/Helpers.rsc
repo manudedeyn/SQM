@@ -9,6 +9,7 @@ import Set;
 import analysis::graphs::Graph;
 import lang::java::m3::AST;
 import String;
+import Helpers::WhitespaceHelper;
 
 
 public set[loc] javaBestanden(loc project) {
@@ -30,7 +31,7 @@ public str removeLeadingSpaces(list[str] linesOfCode){
 	return resultString;
 }
 
-//removeLeadingSpaces
+//removeLeadingSpaces and Comments
 public str removeLeadingSpacesForProjectLocation(loc project){
 
     set[loc] bestanden = javaBestanden(project);
@@ -38,7 +39,7 @@ public str removeLeadingSpacesForProjectLocation(loc project){
 
 	
 	for(loc l <- bestanden){
-	 list[str] fileLines = readFileLines(l);
+	 list[str] fileLines = removeWhitespaceAndComments(l);
 	 resultString = resultString + removeLeadingSpaces(fileLines);
     }
     

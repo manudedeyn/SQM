@@ -55,8 +55,8 @@ public int getNumberOfDuplicateLinesForLocation(loc currentClass, loc project){
 			}
 		}
 		//If this line isn't commented, we make all possible amount of blocks of 6, reaching a number much larger than our total amount of lines
-		//fileLines = drop(1, fileLines);
-		fileLines = drop(6, fileLines);
+		fileLines = drop(1, fileLines);
+		//fileLines = drop(6, fileLines);
 	}
 	
 	return numberOfDuplicateLines;

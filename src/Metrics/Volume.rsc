@@ -2,10 +2,14 @@ module Metrics::Volume
 
 import Helpers::Helpers;
 import Metrics::UnitSize;
+import Helpers::WhitespaceHelper;
+import List;
 
 //Volume metric 1 as defined by the SIG, the total number of lines of code
 
 
+
+//duplicate, used via UnitSize
 public int metricVolumeLOC(loc project) {
 
    set[loc] bestanden = javaBestanden(project);
@@ -14,7 +18,8 @@ public int metricVolumeLOC(loc project) {
 	
     for(loc l <- bestanden){
         //Unit in this case corresponds to a file
-    	totaalAantalRegels = totaalAantalRegels + GetUnitSize(l);
+        list[str] cleanedUpLines = removeWhitespaceAndComments(l);
+    	totaalAantalRegels = totaalAantalRegels + size(cleanedUpLines);
     }
 
 	return totaalAantalRegels;

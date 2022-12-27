@@ -41,7 +41,6 @@ public list[str] removeWhitespaceAndComments(loc file){
 		
 		if(line == ""){
 		 ignoreLine == true;
-	
 		}
 
 		//Add line to resultSet if not a comment
