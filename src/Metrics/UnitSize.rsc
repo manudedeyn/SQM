@@ -72,6 +72,41 @@ int unitsNumber = 0;
    return [unitsNumber, veryHighRiskPercentage, highRiskPercentage, moderateRiskPercentage, lowRiskPercentage];//Total, VeryHigh, High, Moderate, Low
 }
 
+public rel[num x, num y] UnitSizeValues(loc project) {
+ 
+rel[num x, num y] values = {};
+int unitsNumber = 0;
+ M3 model = createM3FromEclipseProject(project);
+ 	for(decl <- model.declarations) {
+	
+		if(isMethod(decl.name)) {
+		unitsNumber = unitsNumber + 1;
+		ast = createAstFromFile(toLocation(decl.src.uri), false);
+				
+		int complexity = 0;
+	
+		visit(ast) {
+			case m:\method(_,_,_,_,imp): {
+				if(m.src == decl.src) { 
+				int unitSize =  GetUnitSize(decl.src);
+				values += <unitsNumber, unitSize>;
+				}
+			}
+			case c:\constructor(_,_,_,imp): {
+				if(c.src == decl.src) {
+				int unitSize =  GetUnitSize(decl.src);
+				values += <unitsNumber, unitSize>;
+				}
+			}
+			
+ 		}
+					
+	}	
+ 	} 	
+ 
+   return values;
+}
+
 //This is calculated with a Weighted Average
 public str getUnitSizeScore(list[int] values){
 	//Left to right: Simple to VeryHigh
