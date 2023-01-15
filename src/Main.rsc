@@ -63,4 +63,8 @@ public void calculateMetrics(){
 	TestabilityScore
 	*/
 	println("overall maintainability score: " + calculateAverageScore([analysabilityScore,changabilityScore, testabilityScore])); 
+	
+	//Manually call these to draw plots. Keep commented now.
+	//visualizeScores(volumeScore,unitSizeScore,unitComplexityScore,duplicationScore,analysabilityScore,changabilityScore,testabilityScore,overallScore);
+	//visualizeUnitSizeDetails(UnitSizeValues(project));
 }
