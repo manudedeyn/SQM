@@ -72,3 +72,17 @@ public void testWeighted_Average(){
 	println(avg); //Should be: 76.0
 }
 
+public int getIntScore(str score){
+	if (score == "--")
+		return 1;
+	else if (score =="-")
+		return 2;
+	else if (score =="O")
+		return 3;
+	else if (score =="+")
+		return 4;
+	else
+		return 5;
+}
+
+
