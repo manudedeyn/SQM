@@ -27,14 +27,14 @@ int numberOfLinesVeryHighRisk = 0;
 int numberOfLinesHighRisk = 0;
 int numberOfLinesModerateRisk = 0;
 int numberOfLinesSimple = 0;
-
+int unitsNumber = 0;
  M3 model = createM3FromEclipseProject(project);
  	for(decl <- model.declarations) {
 	
 	
 	
 		if(isMethod(decl.name)) {
-		
+		unitsNumber = unitsNumber + 1;
 		ast = createAstFromFile(toLocation(decl.src.uri), false);
 		
 		int complexity = 0;
@@ -69,7 +69,7 @@ int numberOfLinesSimple = 0;
    int highRiskPercentage = percent(numberOfLinesHighRisk, numberOfLines);
    int moderateRiskPercentage = percent(numberOfLinesModerateRisk, numberOfLines);
    int lowRiskPercentage = percent(numberOfLinesSimple, numberOfLines);
-   return [numberOfLines, veryHighRiskPercentage, highRiskPercentage, moderateRiskPercentage, lowRiskPercentage];//Total, VeryHigh, High, Moderate, Low
+   return [unitsNumber, veryHighRiskPercentage, highRiskPercentage, moderateRiskPercentage, lowRiskPercentage];//Total, VeryHigh, High, Moderate, Low
 }
 
 //This is calculated with a Weighted Average
