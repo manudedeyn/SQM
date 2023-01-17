@@ -20,3 +20,23 @@ public Content visualizeUnitSizeDetails(rel[num x, num y] values){
 	Content c = scatterChart(values); 
 	return c;
 }
+
+public Content createCyclomaticComplexityChart(int simple, int moderate, int high, int veryHigh){
+		rel[str label, num val] values = {<"Simple", simple>, <"Moderate", moderate>, <"High", high>, <"Very High", veryHigh>};
+		str title = "Cyclomatic Complexity";
+		Content c = createPieChart(values);
+		return c;
+} 
+
+public Content createDuplication(int nonDuplication, int duplicated){
+		rel[str label, num val] values = {<"Not duplicated", nonDuplication>, <"Duplicated", duplicated>};
+		str title = "Duplication";
+		Content c = createPieChart(values);
+		return c;
+} 
+
+public Content createPieChart(rel[str label,num val] values){
+		Content c = pieChart(values);
+		return c;
+}
+

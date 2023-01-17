@@ -67,4 +67,6 @@ public void calculateMetrics(){
 	//Manually call these to draw plots. Keep commented now.
 	//visualizeScores(volumeScore,unitSizeScore,unitComplexityScore,duplicationScore,analysabilityScore,changabilityScore,testabilityScore,overallScore);
 	//visualizeUnitSizeDetails(UnitSizeValues(project));
+	//createCyclomaticComplexityChart(simple,complexity[2],complexity[1],complexity[0]);
+	//createDuplication(100-percentageDuplicated,percentageDuplicated);
 }
